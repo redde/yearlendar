@@ -1,0 +1,17 @@
+%h1 Календарь на год #{@calendar.year}
+= link_to "На #{@calendar.year - 1}", params.merge(year: @calendar.year - 1)
+= link_to "На #{@calendar.year + 1}", params.merge(year: @calendar.year + 1)
+
+%table{border: 1}
+  %tr
+    - (0..13).to_a.each do |i|
+      %td= Calendar::MONTHS[i] if i > 0 && i < 13
+
+  - @calendar.result.column_size.times do |day|
+    %tr
+      - (-1..12).to_a.each do |i|
+        %td{class: "#{'red' if Calendar::HOLYDAYS.include?(day % 7)}"}
+          - if [-1, 12].include?(i)
+            = Calendar::RUDAYS[day % 7]
+          - else
+            = @calendar.result[i, day]

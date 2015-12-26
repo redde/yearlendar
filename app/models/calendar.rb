@@ -33,7 +33,7 @@ class Calendar
     res = []
     start_index.times { res << nil }
     (date..date.end_of_month).each do |day|
-      res << day.strftime('%e').strip
+      res << day
     end
     res
   end
@@ -42,5 +42,9 @@ class Calendar
     (1..12).map do |i|
       Date.new(year, i, 1).strftime('%A')
     end.uniq.sort { |a, b| DAYS.index(a) <=> DAYS.index(b) }.first
+  end
+
+  def self.class_for_day(day)
+    ["#{'red' if Calendar::HOLYDAYS.include?(day % 7)}", "#{'top' if day % 7 == 5}", "#{'bottom' if day % 7 == 6}"].select { |i| i.present? }.uniq
   end
 end

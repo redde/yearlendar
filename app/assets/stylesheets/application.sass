@@ -1,0 +1,32 @@
+//= require_tree .
+//= require_self
+
+*
+  margin: 0
+  padding: 0
+
+table
+  border-collapse: collapse
+  // height: 57.4cm
+  box-sizing: border-box
+  td
+    padding: 2px 5px
+
+@media print
+  html, body, table
+    height: 100%
+
+  h1, a
+    display: none
+
+  table
+    font-size: 36px
+    td
+      padding: 0 5px
+
+  @page
+    // size: landspace
+    // 594 × 841 (мм)
+    // size: 8.5in 11in
+    size: 84.1cm 59.4cm
+    // margin: 1cm

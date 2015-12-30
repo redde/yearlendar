@@ -15,3 +15,7 @@
             = Calendar::RUDAYS[day % 7]
           - else
             = @calendar.result[i, day].strftime('%e') if @calendar.result[i, day]
+
+%div
+  = link_to 'Печать', 'javascript:print();'
+  %span.dn *при печати указать галочку "фон"

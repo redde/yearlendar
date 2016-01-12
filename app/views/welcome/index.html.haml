@@ -5,12 +5,13 @@
 %table.tcal{ border: 1 }
   %tr
     - (0..13).to_a.each do |i|
-      %td.tcal__cell= Calendar::MONTHS[i] if i > 0 && i < 13
+      %td.tcal__cell
+        %div.tcal__month= Calendar::MONTHS[i] if i > 0 && i < 13
 
   - @calendar.result.column_size.times do |day|
     %tr
       - (-1..12).to_a.each do |i|
-        %td.tcal__cell{class: Calendar.class_for_day(day)}
+        %td.tcal__cell{class: [Calendar.class_for_day(day), ('_day' if i == -1 || i == 12)]}
           - if [-1, 12].include?(i)
             = Calendar::RUDAYS[day % 7]
           - else

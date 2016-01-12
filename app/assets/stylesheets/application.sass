@@ -9,7 +9,7 @@
   border-collapse: collapse
   // height: 57.4cm
   // box-sizing: border-box
-  table-layout: fixed
+  // table-layout: fixed
   width: 100%
 
 .tcal__cell
@@ -28,6 +28,11 @@
 
   &:first-child
     text-align: right
+  &._day
+    width: 1px
+
+.tcal__month
+  width: 0px
 
 @media print
   html, body, table

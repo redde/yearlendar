@@ -5,14 +5,29 @@
   margin: 0
   padding: 0
 
-table
+.tcal
   border-collapse: collapse
   // height: 57.4cm
+  // box-sizing: border-box
+  // table-layout: fixed
+  width: 100%
+
+.tcal__cell
   box-sizing: border-box
-  td
-    padding: 2px 5px
-    &.red
-      background: #ededed
+  padding: 2px 5px
+  // border: 1px solid
+
+  &._holiday_top,
+  &._holiday_bottom
+    background: #ededed
+
+  &._holiday_top
+    border-top: 3px solid
+  &._holiday_bottom
+    border-bottom: 3px solid
+
+  &:first-child
+    text-align: right
 
 @media print
   html, body, table
@@ -21,10 +36,11 @@ table
   h1, a
     display: none
 
-  table
+  .tcal
     font-size: 36px
-    td
-      padding: 0 5px
+
+  .tcal__cell
+    padding: 0 5px
 
   @page
     // size: landspace

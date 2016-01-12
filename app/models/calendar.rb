@@ -45,6 +45,6 @@ class Calendar
   end
 
   def self.class_for_day(day)
-    ["#{'red' if Calendar::HOLYDAYS.include?(day % 7)}", "#{'top' if day % 7 == 5}", "#{'bottom' if day % 7 == 6}"].select { |i| i.present? }.uniq
+    ["#{'red' if Calendar::HOLYDAYS.include?(day % 7)}", "#{'_holiday_top' if day % 7 == 5}", "#{'_holiday_bottom' if day % 7 == 6}"].select { |i| i.present? }.uniq
   end
 end

@@ -1,7 +1,9 @@
 .caption
-  = link_to "На #{@calendar.year - 1}", params.merge(year: @calendar.year - 1)
+  = link_to params.merge(year: @calendar.year - 1) do
+    &#8604; На #{@calendar.year - 1}
   %h1.dib Календарь на год #{@calendar.year}
-  = link_to "На #{@calendar.year + 1}", params.merge(year: @calendar.year + 1)
+  = link_to params.merge(year: @calendar.year + 1) do
+    На #{@calendar.year + 1} &#8605;
 
 %table.tcal{ border: 1 }
   %tr

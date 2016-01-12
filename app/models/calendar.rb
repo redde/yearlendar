@@ -16,7 +16,12 @@ class Calendar
   MONTHS = [nil, 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
   def initialize(year = nil)
-    @year = (year || (Date.today.year + 1)).to_i
+    @year = (year || cal_year).to_i
+  end
+
+  def cal_year
+    return Date.today.year + 1 if Date.today.month.to_i == 12
+    Date.today.year
   end
 
   def result

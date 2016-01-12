@@ -1,21 +1,26 @@
 .caption
   = link_to params.merge(year: @calendar.year - 1) do
     &#8604; На #{@calendar.year - 1}
-  %h1.dib Календарь на год #{@calendar.year}
+  %h1.dib Календарь на #{@calendar.year} год
   = link_to params.merge(year: @calendar.year + 1) do
     На #{@calendar.year + 1} &#8605;
 
-%table.tcal{ border: 1 }
-  %tr
-    - (0..13).to_a.each do |i|
-      %td.tcal__cell
-        %div.tcal__month= Calendar::MONTHS[i] if i > 0 && i < 13
-
-  - @calendar.result.column_size.times do |day|
+- cache [:calendar, @calendar.year] do
+  %table.tcal{ border: 1 }
     %tr
-      - (-1..12).to_a.each do |i|
-        %td.tcal__cell{class: [Calendar.class_for_day(day), ('_day' if i == -1 || i == 12)]}
-          - if [-1, 12].include?(i)
-            = Calendar::RUDAYS[day % 7]
-          - else
-            = @calendar.result[i, day].strftime('%e') if @calendar.result[i, day]
+      %td.tcal__cell Книга
+      - 13.times do
+        %td
+    %tr
+      - (0..13).to_a.each do |i|
+        %td.tcal__cell
+          %div.tcal__month= Calendar::MONTHS[i] if i > 0 && i < 13
+
+    - @calendar.result.column_size.times do |day|
+      %tr
+        - (-1..12).to_a.each do |i|
+          %td.tcal__cell{class: [Calendar.class_for_day(day), ('_day' if i == -1 || i == 12)]}
+            - if [-1, 12].include?(i)
+              = Calendar::RUDAYS[day % 7]
+            - else
+              = @calendar.result[i, day].strftime('%e') if @calendar.result[i, day]

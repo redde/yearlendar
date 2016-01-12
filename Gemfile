@@ -35,6 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'dalli'
 gem 'haml-rails'
 gem 'quiet_assets'
 gem 'rails-i18n'

@@ -5,7 +5,7 @@
   = link_to params.merge(year: @calendar.year + 1) do
     На #{@calendar.year + 1} &#8605;
 
-- cache [:calendar, @calendar.year] do
+- cache [:calendar, @calendar.year, params[:short_days]] do
   %table.tcal{ border: 1 }
     %tr
       %td.tcal__cell Книга
@@ -21,6 +21,6 @@
         - (-1..12).to_a.each do |i|
           %td.tcal__cell{class: [Calendar.class_for_day(day), ('_day' if i == -1 || i == 12)]}
             - if [-1, 12].include?(i)
-              = Calendar::RUDAYS[day % 7]
+              = full_or_short[day % 7]
             - else
               = @calendar.result[i, day].strftime('%e') if @calendar.result[i, day]

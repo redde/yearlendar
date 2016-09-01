@@ -1,8 +1,8 @@
 .caption
-  = link_to params.merge(year: @calendar.year - 1) do
+  = link_to params.merge(year: @calendar.year - 1).permit! do
     &#8604; На #{@calendar.year - 1}
   %h1.dib Календарь на #{@calendar.year} год
-  = link_to params.merge(year: @calendar.year + 1) do
+  = link_to params.merge(year: @calendar.year + 1).permit! do
     На #{@calendar.year + 1} &#8605;
 
 - cache [:calendar, @calendar.year, params[:short_days]] do

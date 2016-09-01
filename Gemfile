@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '5.0.0.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: [:development, :test]
 group :production do
@@ -38,7 +37,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dalli'
 gem 'connection_pool'
 gem 'haml-rails'
-gem 'quiet_assets'
 gem 'rails-i18n'
 gem 'puma'
 

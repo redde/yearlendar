@@ -4,6 +4,12 @@
   %h1.dib Календарь на #{@calendar.year} год
   = link_to params.merge(year: @calendar.year + 1).permit! do
     На #{@calendar.year + 1} &#8605;
+  %span{ style: 'text-align: right' }
+    Название дней:
+    - if params[:short_days].present?
+      = link_to 'Полное', root_url
+    - else
+      = link_to 'Короткое', root_url(short_days: true)
 
 - cache [:calendar, @calendar.year, params[:short_days]] do
   %table.tcal{ border: 1 }

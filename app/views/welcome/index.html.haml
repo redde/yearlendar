@@ -4,7 +4,8 @@
   %h1.dib Календарь на #{@calendar.year} год
   = link_to params.merge(year: @calendar.year + 1).permit! do
     На #{@calendar.year + 1} &#8605;
-  %span{ style: 'text-align: right' }
+
+  %span{ style: 'float: right; margin-left: -100%; margin-top: 15px;' }
     Название дней:
     - if params[:short_days].present?
       = link_to 'Полное', root_url

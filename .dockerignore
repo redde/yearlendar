@@ -1,0 +1,12 @@
+.git
+.dockerignore
+.byebug_history
+log/*
+tmp/*
+ansible
+node_modules
+.env
+.vscode
+k8s
+public/packs
+public/packs-test

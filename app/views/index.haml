@@ -1,18 +1,16 @@
 .caption
-  = link_to params.merge(year: @calendar.year - 1).permit! do
-    &#8604; На #{@calendar.year - 1}
+  %a{ href: "/?#{params.merge(year: @calendar.year - 1).to_query}" } &#8604; На #{@calendar.year - 1}
   %h1.dib Календарь на #{@calendar.year} год
-  = link_to params.merge(year: @calendar.year + 1).permit! do
-    На #{@calendar.year + 1} &#8605;
+  %a{ href: "/?#{params.merge(year: @calendar.year + 1).to_query}" }На #{@calendar.year + 1} &#8605;
 
   %span{ style: 'float: right; margin-left: -100%; margin-top: 15px;' }
     Название дней:
-    - if params[:short_days].present?
-      = link_to 'Полное', root_url
+    - if params[:short_days]
+      %a{ href: "/?#{params.without('short_days').to_query}" } Полное
     - else
-      = link_to 'Короткое', root_url(short_days: true)
+      %a{ href: "/?#{params.merge(short_days: true).to_query}" } Короткое
 
-- cache [:calendar, @calendar.year, params[:short_days]] do
+
   %table.tcal{ border: 1 }
     %tr
       %td.tcal__cell Книга

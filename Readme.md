@@ -13,6 +13,6 @@
 
 ```bash
 docker build -t yearlendar . && \
-docker tag yearlendar arrowcircle/yearlendar:v1.0.1 && \
-docker push arrowcircle/yearlendar:v1.0.1
+docker tag yearlendar arrowcircle/yearlendar:v1.0.2 && \
+docker push arrowcircle/yearlendar:v1.0.2
 ```

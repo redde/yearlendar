@@ -1,5 +1,3 @@
 /node_modules/
 /dist/
 /.astro/
-/.ruby-version
-/.ruby-gemset

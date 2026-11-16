@@ -1,0 +1,199 @@
+---
+const { year } = Astro.props;
+const months = [
+  'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
+];
+const title = year ? `Календарь на ${year} год` : 'Годовой календарь';
+---
+
+<!doctype html>
+<html lang="ru-RU">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.ico`} />
+  </head>
+  <body data-year={year} data-base={import.meta.env.BASE_URL}>
+    <div class="caption">
+      <a id="previous-year"></a>
+      <h1 id="calendar-title">{title}</h1>
+      <a id="next-year"></a>
+      <span class="day-labels">
+        Название дней:
+        <a id="toggle-days"></a>
+      </span>
+    </div>
+
+    <table class="tcal" border="1" aria-labelledby="calendar-title">
+      <thead>
+        <tr>
+          <td class="tcal__cell">Книга</td>
+          {Array.from({ length: 13 }, () => <td></td>)}
+        </tr>
+        <tr>
+          <td class="tcal__cell"></td>
+          {months.map((month) => (
+            <th class="tcal__cell" scope="col"><div class="tcal__month">{month}</div></th>
+          ))}
+          <td class="tcal__cell"></td>
+        </tr>
+      </thead>
+      <tbody id="days"></tbody>
+    </table>
+
+    <!-- Yandex.Metrika -->
+    <script is:inline>
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+
+      ym(34835990, 'init', {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+      });
+    </script>
+    <noscript>
+      <img src="https://mc.yandex.ru/watch/34835990" alt="" style="position: absolute; left: -9999px;" />
+      Для календаря нужен JavaScript.
+    </noscript>
+  </body>
+</html>
+
+<script>
+  import { calendarRows, defaultYear, yearUrl } from './calendar.js';
+
+  const query = new URLSearchParams(location.search);
+  const requestedYear = Number(document.body.dataset.year || query.get('year'));
+  const year = Number.isInteger(requestedYear) && requestedYear >= 1 && requestedYear <= 9999
+    ? requestedYear
+    : defaultYear();
+  const base = document.body.dataset.base!;
+  const shortDays = Boolean(query.get('short_days')?.trim());
+  const days = shortDays
+    ? ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+    : ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+
+  document.title = document.querySelector('h1')!.textContent = `Календарь на ${year} год`;
+  const previous = document.querySelector<HTMLAnchorElement>('#previous-year')!;
+  const next = document.querySelector<HTMLAnchorElement>('#next-year')!;
+  const toggle = document.querySelector<HTMLAnchorElement>('#toggle-days')!;
+  previous.textContent = `↜ На ${year - 1}`;
+  previous.href = yearUrl(base, year - 1, query);
+  previous.hidden = year === 1;
+  next.textContent = `На ${year + 1} ↝`;
+  next.href = yearUrl(base, year + 1, query);
+  next.hidden = year === 9999;
+
+  if (shortDays) query.delete('short_days');
+  else query.set('short_days', 'true');
+  toggle.textContent = shortDays ? 'Полное' : 'Короткое';
+  toggle.href = yearUrl(base, year, query);
+
+  const body = document.querySelector<HTMLTableSectionElement>('#days')!;
+  calendarRows(year).forEach((dates, row) => {
+    const weekday = row % 7;
+    const line = body.insertRow();
+    for (const value of [days[weekday], ...dates, days[weekday]]) {
+      const cell = line.insertCell();
+      cell.className = 'tcal__cell';
+      if (weekday === 5) cell.classList.add('_holiday_top');
+      if (weekday === 6) cell.classList.add('_holiday_bottom');
+      cell.textContent = String(value);
+    }
+    line.cells[0].classList.add('_day');
+    line.cells[13].classList.add('_day');
+  });
+</script>
+
+<style is:global>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .caption {
+    text-align: center;
+  }
+
+  .caption h1 {
+    display: inline-block;
+    margin-inline: 4px;
+  }
+
+  .day-labels {
+    float: right;
+    margin-left: -100%;
+    margin-top: 15px;
+  }
+
+  .day-labels a {
+    margin-inline-start: 4px;
+  }
+
+  .tcal {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tcal__cell {
+    box-sizing: border-box;
+    padding: 2px 5px;
+    font-weight: normal;
+    text-align: inherit;
+  }
+
+  .tcal__cell:first-child {
+    text-align: right;
+  }
+
+  .tcal__cell._day {
+    width: 1px;
+  }
+
+  .tcal__month {
+    width: 0;
+  }
+
+  ._holiday_top, ._holiday_bottom {
+    background: #ededed;
+  }
+
+  ._holiday_top {
+    border-top: 3px solid;
+  }
+
+  ._holiday_bottom {
+    border-bottom: 3px solid;
+  }
+
+  @media screen {
+    .tcal {
+      text-align: center;
+    }
+  }
+
+  @media print {
+    html, body, .tcal {
+      height: 100%;
+    }
+
+    .caption {
+      display: none;
+    }
+
+    .tcal {
+      font-size: 36px;
+      print-color-adjust: exact;
+    }
+
+    .tcal__cell {
+      padding: 0 5px;
+    }
+
+    @page {
+      size: 84.1cm 59.4cm;
+    }
+  }
+</style>

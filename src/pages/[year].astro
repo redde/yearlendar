@@ -1,0 +1,12 @@
+---
+import Calendar from '../Calendar.astro';
+import { FIRST_STATIC_YEAR, LAST_STATIC_YEAR } from '../calendar.js';
+
+export function getStaticPaths() {
+  return Array.from({ length: LAST_STATIC_YEAR - FIRST_STATIC_YEAR + 1 }, (_, offset) => ({
+    params: { year: String(FIRST_STATIC_YEAR + offset) },
+  }));
+}
+---
+
+<Calendar year={Astro.params.year} />
